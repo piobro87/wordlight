@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  web:
+    build:
+      context: ../
+      dockerfile: .docker/Dockerfile
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        python manage.py makemigrations
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ../:/wordlight
+    ports:
+      - "8000:8000"
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - db_storage:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db_storage:
