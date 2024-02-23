@@ -34,6 +34,6 @@ jobs:
         ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
         IMAGE_TAG: latest
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f .docker/Dockerfile ./wordlight
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./wordlight/.docker/Dockerfile ./wordlight
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
