@@ -7,7 +7,7 @@ Accepted
 ## Context
 We are looking to establish what functionalities our application is going to have.
 ## Decision
-  - sing in/sing up functionality:
+  - sign in/sign up functionality:
     - user password reset,
     - user profile:
       - statistics:

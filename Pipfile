@@ -4,13 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
-psycopg2-binary = "*"
-django-crispy-forms = "*"
-crispy-bootstrap4 = "*"
 
 [dev-packages]
-pre-commit = "*"
 
 [requires]
 python_version = "3.11"
