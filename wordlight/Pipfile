@@ -8,9 +8,11 @@ django = "*"
 psycopg2-binary = "*"
 django-crispy-forms = "*"
 crispy-bootstrap4 = "*"
+pillow = "*"
 
 [dev-packages]
 pre-commit = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.11"
