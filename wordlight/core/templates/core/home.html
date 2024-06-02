@@ -1,357 +1,111 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
-<header class="navbar sticky-top flex-md-nowrap">
-    <div class="col-md-3 col-lg-3 me-0 px-3 fs-6">
-        <a class="navbar-brand" href="index.html">
-            <i class="bi-box"></i>
-            Mini Finance
-        </a>
+
+<main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+    <div class="title-group mb-3">
+        <h1 class="h2 mb-0">Overview</h1>
+        {% if user.first_name %}
+        <small class="text-muted">Hello {{ user.first_name }}, welcome back!</small>
+        {% else %}
+        <small class="text-muted">Hello, welcome back!</small>
+
+        {% endif %}
     </div>
 
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <form class="custom-form header-form ms-lg-3 ms-md-3 me-lg-auto me-md-auto order-2 order-lg-0 order-md-0" action="#"
-          method="get" role="form">
-        <input class="form-control" name="search" type="text" placeholder="Search" aria-label="Search">
-    </form>
+    <div class="row my-4">
+        <div class="col-lg-7 col-12">
 
-    <div class="navbar-nav me-lg-2">
-        <div class="nav-item text-nowrap d-flex align-items-center">
-            <div class="dropdown ps-3">
-                <a class="nav-link dropdown-toggle text-center" href="#" role="button" data-bs-toggle="dropdown"
-                   aria-expanded="false" id="navbarLightDropdownMenuLink">
-                    <i class="bi-bell"></i>
-                    <span class="position-absolute start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
-                            <span class="visually-hidden">New alerts</span>
-                        </span>
-                </a>
 
-                <ul class="dropdown-menu dropdown-menu-lg-end notifications-block-wrap bg-white shadow"
-                    aria-labelledby="navbarLightDropdownMenuLink">
-                    <small>Notifications</small>
-
-                    <li class="notifications-block border-bottom pb-2 mb-2">
-                        <a class="dropdown-item d-flex  align-items-center" href="#">
-                            <div class="notifications-icon-wrap bg-success">
-                                <i class="notifications-icon bi-check-circle-fill"></i>
-                            </div>
-
-                            <div>
-                                <span>Your account has been created successfuly.</span>
-
-                                <p>12 days ago</p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="notifications-block border-bottom pb-2 mb-2">
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <div class="notifications-icon-wrap bg-info">
-                                <i class="notifications-icon bi-folder"></i>
-                            </div>
-
-                            <div>
-                                <span>Please check. We have sent a Daily report.</span>
-
-                                <p>10 days ago</p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="notifications-block">
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <div class="notifications-icon-wrap bg-danger">
-                                <i class="notifications-icon bi-question-circle"></i>
-                            </div>
-
-                            <div>
-                                <span>Account verification failed.</span>
-
-                                <p>1 hour ago</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+            <div class="custom-block bg-white">
+                <div id="chart"></div>
             </div>
 
-            <div class="dropdown ps-1">
-                <a class="nav-link dropdown-toggle text-center" href="#" role="button" data-bs-toggle="dropdown"
-                   aria-expanded="false">
-                    <i class="bi-three-dots-vertical"></i>
-                </a>
 
-                <div class="dropdown-menu dropdown-menu-social bg-white shadow">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-4">
-                                <a class="dropdown-item text-center" href="#">
-                                    <img src="{% static 'core/images/social/search.png' %}"
-                                         class="profile-image img-fluid" alt="">
-                                    <span class="d-block">Google</span>
-                                </a>
-                            </div>
+        </div>
 
-                            <div class="col-lg-4 col-md-4 col-4">
-                                <a class="dropdown-item text-center" href="#">
-                                    <img src="{% static 'core/images/social/spotify.png' %}"
-                                         class="profile-image img-fluid" alt="">
-                                    <span class="d-block">Spotify</span>
-                                </a>
-                            </div>
+        <div class="col-lg-5 col-12">
+            <div class="custom-block custom-block-profile-front custom-block-profile text-center bg-white">
+                <div class="custom-block-profile-image-wrap mb-4">
+                    <img src="{{ user.profile.image.url }}"
+                         class="custom-block-profile-image img-fluid" alt="">
 
-                            <div class="col-lg-4 col-md-4 col-4">
-                                <a class="dropdown-item text-center" href="#">
-                                    <img src="{% static 'core/images/social/telegram.png' %}"
-                                         class="profile-image img-fluid" alt="">
-                                    <span class="d-block">Telegram</span>
-                                </a>
-                            </div>
+                    <a href="setting.html" class="bi-pencil-square custom-block-edit-icon"></a>
+                </div>
 
-                            <div class="col-lg-4 col-md-4 col-4">
-                                <a class="dropdown-item text-center" href="#">
-                                    <img src="{% static 'core/images/social/snapchat.png' %}"
-                                         class="profile-image img-fluid" alt="">
-                                    <span class="d-block">Snapchat</span>
-                                </a>
-                            </div>
+                {% if user.first_name %}
+                <p class="d-flex flex-wrap mb-2">
+                    <strong>Name:</strong>
 
-                            <div class="col-lg-4 col-md-4 col-4">
-                                <a class="dropdown-item text-center" href="#">
-                                    <img src="{% static 'core/images/social/tiktok.png' %}"
-                                         class="profile-image img-fluid" alt="">
-                                    <span class="d-block">Tiktok</span>
-                                </a>
-                            </div>
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                </p>
+                {% endif %}
 
-                            <div class="col-lg-4 col-md-4 col-4">
-                                <a class="dropdown-item text-center" href="#">
-                                    <img src="{% static 'core/images/social/youtube.png' %}"
-                                         class="profile-image img-fluid" alt="">
-                                    <span class="d-block">Youtube</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <p class="d-flex flex-wrap mb-2">
+                    <strong>Email:</strong>
+
+                    <a href="#">
+                        {{ user.email }}
+                    </a>
+                </p>
+
+            </div>
+
+            <div class="custom-block custom-block-bottom d-flex flex-wrap">
+                <div class="custom-block-bottom-item">
+                    <a href="#" class="d-flex flex-column">
+                        <i class="custom-block-icon bi-wallet"></i>
+
+                        <small>Top up</small>
+                    </a>
+                </div>
+
+                <div class="custom-block-bottom-item">
+                    <a href="#" class="d-flex flex-column">
+                        <i class="custom-block-icon bi-upc-scan"></i>
+
+                        <small>Scan & Pay</small>
+                    </a>
+                </div>
+
+                <div class="custom-block-bottom-item">
+                    <a href="#" class="d-flex flex-column">
+                        <i class="custom-block-icon bi-send"></i>
+
+                        <small>Send</small>
+                    </a>
+                </div>
+
+                <div class="custom-block-bottom-item">
+                    <a href="#" class="d-flex flex-column">
+                        <i class="custom-block-icon bi-arrow-down"></i>
+
+                        <small>Request</small>
+                    </a>
                 </div>
             </div>
 
-            <div class="dropdown px-3">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                   aria-expanded="false">
-                    <img src="{{ user.profile.image.url }}"
-                         class="profile-image img-fluid"
-                         alt="">
-                </a>
-                <ul class="dropdown-menu bg-white shadow">
-                    <li>
-                        <div class="dropdown-menu-profile-thumb d-flex">
-                            <img src="{{ user.profile.image.url }}"
-                                 class="profile-image img-fluid me-3" alt="">
-
-
-                            <div class="d-flex flex-column">
-                                <small>{{ user.first_name }}</small>
-                                <a href="#">{{ user.email }}</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item" href="{% url 'profile' %}">
-                            <i class="bi-person me-2"></i>
-                            Profile
-                        </a>
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item" href="setting.html">
-                            <i class="bi-gear me-2"></i>
-                            Settings
-                        </a>
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item" href="help-center.html">
-                            <i class="bi-question-circle me-2"></i>
-                            Help
-                        </a>
-                    </li>
-
-                    <li class="border-top mt-3 pt-2 mx-4">
-
-
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <button class="btn btn-outline-info" type="submit">Logout</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
         </div>
     </div>
-</header>
 
-<div class="container-fluid">
-    <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block sidebar collapse">
-            <div class="position-sticky py-4 px-3 sidebar-sticky">
-                <ul class="nav flex-column h-100">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.html">
-                            <i class="bi-house-fill me-2"></i>
-                            Overview
-                        </a>
-                    </li>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="wallet.html">
-                            <i class="bi-card-checklist"></i>
-                            Flashcards
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' %}">
-                            <i class="bi-person me-2"></i>
-                            Profile
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="setting.html">
-                            <i class="bi-gear me-2"></i>
-                            Settings
-                        </a>
-                    </li>
-
-
-                    <li class="nav-item border-top mt-auto pt-2">
-
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <button class="btn btn-outline-info" type="submit">Logout</button>
-                        </form>
-
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
-            <div class="title-group mb-3">
-                <h1 class="h2 mb-0">Overview</h1>
-                {% if user.first_name %}
-                <small class="text-muted">Hello {{ user.first_name }}, welcome back!</small>
-                {% else %}
-                <small class="text-muted">Hello, welcome back!</small>
-
-                {% endif %}
-            </div>
-
-
-            <div class="row my-4">
-                <div class="col-lg-7 col-12">
-
-
-                    <div class="custom-block bg-white">
-                        <div id="chart"></div>
-                    </div>
-
-
+                <div class="col-lg-12 col-12">
+                    <p class="copyright-text">Copyright © Mini Finance 2048
+                        - Design: <a rel="sponsored" href="https://www.tooplate.com"
+                                     target="_blank">Tooplate</a></p>
                 </div>
 
-                <div class="col-lg-5 col-12">
-                    <div class="custom-block custom-block-profile-front custom-block-profile text-center bg-white">
-                        <div class="custom-block-profile-image-wrap mb-4">
-                            <img src="{{ user.profile.image.url }}"
-                                 class="custom-block-profile-image img-fluid" alt="">
-
-                            <a href="setting.html" class="bi-pencil-square custom-block-edit-icon"></a>
-                        </div>
-
-                        {% if user.first_name %}
-                        <p class="d-flex flex-wrap mb-2">
-                            <strong>Name:</strong>
-
-                            <span>{{ user.first_name }} {{ user.last_name }}</span>
-                        </p>
-                        {% endif %}
-
-                        <p class="d-flex flex-wrap mb-2">
-                            <strong>Email:</strong>
-
-                            <a href="#">
-                                {{ user.email }}
-                            </a>
-                        </p>
-
-                    </div>
-
-                    <div class="custom-block custom-block-bottom d-flex flex-wrap">
-                        <div class="custom-block-bottom-item">
-                            <a href="#" class="d-flex flex-column">
-                                <i class="custom-block-icon bi-wallet"></i>
-
-                                <small>Top up</small>
-                            </a>
-                        </div>
-
-                        <div class="custom-block-bottom-item">
-                            <a href="#" class="d-flex flex-column">
-                                <i class="custom-block-icon bi-upc-scan"></i>
-
-                                <small>Scan & Pay</small>
-                            </a>
-                        </div>
-
-                        <div class="custom-block-bottom-item">
-                            <a href="#" class="d-flex flex-column">
-                                <i class="custom-block-icon bi-send"></i>
-
-                                <small>Send</small>
-                            </a>
-                        </div>
-
-                        <div class="custom-block-bottom-item">
-                            <a href="#" class="d-flex flex-column">
-                                <i class="custom-block-icon bi-arrow-down"></i>
-
-                                <small>Request</small>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
             </div>
-
-            <footer class="site-footer">
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-12 col-12">
-                            <p class="copyright-text">Copyright © Mini Finance 2048
-                                - Design: <a rel="sponsored" href="https://www.tooplate.com"
-                                             target="_blank">Tooplate</a></p>
-                        </div>
-
-                    </div>
-                </div>
-            </footer>
-        </main>
-
-    </div>
-</div>
+        </div>
+    </footer>
+</main>
 
 <!-- JAVASCRIPT FILES -->
-<script src="{% static 'core/js/jquery.min.js' %}"></script>
-<script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'core/js/apexcharts.min.js' %}"></script>
-<script src="{% static 'core/js/custom.js' %}"></script>
+
 
 <script type="text/javascript">
     var options = {

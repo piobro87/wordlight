@@ -1,24 +1,24 @@
-{% extends 'core/base.html' %}
+{% extends 'core/barebone_base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% block head %}
-    <link href="{% static 'users/css/login.css' %}" rel="stylesheet">
+<link href="{% static 'users/css/login.css' %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-    <div class="content-section">
-        <form class = "custom-form header-form ms-lg-3 ms-md-3 me-lg-auto me-md-auto order-2 order-lg-0 order-md-0"
-              method="POST">
-            {%csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border_bottom mb-4">Join!</legend>
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Sign Up</button>
-            </div>
-        </form>
-        <div class="border-top pt-3">
-
+<div class="content-section">
+    <form class="custom-form header-form ms-lg-3 ms-md-3 me-lg-auto me-md-auto order-2 order-lg-0 order-md-0"
+          method="POST">
+        {%csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border_bottom mb-4">Join!</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Sign Up</button>
         </div>
+    </form>
+    <div class="border-top pt-3">
+
     </div>
+</div>
 {% endblock %}
