@@ -1,0 +1,28 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-secondary;
+}
+
+h1 {
+  color: $blue;
+  @include font-size(45);
+  line-height: 50px;
+  @include breakpoint(small-max) {
+    @include font-size(55);
+    line-height: 60px;
+  }
+}
+
+h2 {
+  color: $black;
+  @include font-size(22);
+  line-height: 30px;
+  @include breakpoint(small-max) {
+    @include font-size(32);
+    line-height: 20px;
+  }
+}

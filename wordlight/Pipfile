@@ -9,6 +9,9 @@ psycopg2-binary = "*"
 django-crispy-forms = "*"
 crispy-bootstrap4 = "*"
 pillow = "*"
+django-compressor = '*'
+django-libsass = '*'
+djangorestframework = "*"
 
 [dev-packages]
 pre-commit = "*"

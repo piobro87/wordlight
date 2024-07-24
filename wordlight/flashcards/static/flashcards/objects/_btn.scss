@@ -1,0 +1,40 @@
+.btn {
+	@include font-size(18);
+	line-height: 27px;
+	letter-spacing: 0.01rem;
+	display: inline-block;
+	padding: 10px 50px;
+	border-radius: 5px;
+	text-align: center;
+	font-family: $font-primary;
+	text-transform: capitalize;
+	font-weight: 500;
+	color: $white;
+	user-select: none;
+	cursor: pointer;
+	height: 45px;
+
+	&--large {
+	padding: 10px 70px;
+	height: 50px;
+	@include breakpoint(small-max) {
+    padding: 10px 100px;
+  }
+	}
+
+	&--green {
+		background-color: $green;
+		&:hover {
+			background-color: $dark-green;
+		}
+	}
+
+	&--blue {
+		background: $blue;
+
+		&:hover{
+			background: linear-gradient(#004652, #004652);
+		}
+	}
+
+}
