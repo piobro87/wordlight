@@ -11,72 +11,61 @@ Card structure:
 
 let currentIdCard = 0;
 
-function setCookie(name, value, days) {
-  let expires = "";
-  if (days) {
-    let date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    expires = "; expires=" + date.toUTCString();
-  }
-  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+async function createCard(front, back) {
+    let setName = getSetName()
+    let card = {original_text: String(front), translated_text: String(back), set_name: String(setName) };
+    let cardJSON = JSON.stringify(card);
+
+    let response = await fetch(`/api/flashcard/`, {
+        method: "POST",
+        body: cardJSON,
+        headers: {"Content-Type": "application/json", 'X-CSRFToken': getCookie("csrftoken")}
+    });
+
+    if (response.status == 201) {
+
+        return card;
+    }
 }
 
-function getCookie(name) {
-  let nameEQ = name + "=";
-  let ca = document.cookie.split(';');
-  for(let i=0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
-}
-
-function eraseCookie(name) {
-  document.cookie = name + '=; Max-Age=-99999999;';
-}
-
-function createCard(front, back) {
-  let card = { id: currentIdCard, front: String(front), back: String(back) };
-  let cardJSON = JSON.stringify(card);
-  setCookie(card.id, cardJSON, 365); // setting the cookie to expire in 365 days
-  currentIdCard++; // increase card's id every time when func calls
-  return card;
-}
-
-function deleteCard(id) {
-  eraseCookie(id);
+async function deleteCard(id) {
+    let response = await fetch(`/api/flashcard/${id}`, {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json", 'X-CSRFToken': getCookie("csrftoken")}
+    });
 }
 
 function searchCard(query) {
-  let cards = getAllCards();
-  return cards.filter(card => card.front.includes(query) || card.back.includes(query));
+    let cards = getAllCards();
+    return cards.filter(card => card.front.includes(query) || card.back.includes(query));
 }
 
-function deleteAllCards() {
-  let cookies = document.cookie.split(';');
-  cookies.forEach(cookie => {
-    let [key] = cookie.split('=');
-    key = key.trim();
-    if (!isNaN(key)) { // ensuring the key is a number, indicating a card
-      eraseCookie(key);
-    }
-  });
+async function deleteAllCards() {
+    let setName = getSetName()
+    let response = await fetch(`/api/flashcards/${setName}`, {method: "DELETE",
+        headers: {"Content-Type": "application/json", 'X-CSRFToken': getCookie("csrftoken")}
+    });
 }
 
-function getAllCards() {
-  // TODO Implement communication with API for retrieving cards
-  // /card/<string:category>/get-all/
-  //
+async function getAllCards() {
+    let setName = getSetName()
+    let response = await fetch(`/api/flashcards/${setName}`);
+    let cards = await response.json()
 
-  let cookies = document.cookie.split(';');
-  let cards = [];
-  cookies.forEach(cookie => {
-    let [key, value] = cookie.split('=');
-    key = key.trim();
-    if (!isNaN(key)) { // ensuring the key is a number, indicating a card
-      cards.push(JSON.parse(decodeURIComponent(value)));
-    }
-  });
-  return cards;
+    return cards;
+}
+
+
+function getSetName() {
+    let path = location.pathname;
+    let directories = path.split("/");
+    let setName = directories[(directories.length - 2)];
+
+    return setName;
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
 }

@@ -34,19 +34,18 @@ closeBtn.addEventListener("click", () => {
 function createCardElement(card, onDelete) {
   let cardDOM = document.createElement("div");
   cardDOM.classList.add("card");
-
   cardDOM.innerHTML = `
   <div class="card-container">
   		<div class="inner-card-front">
 			<h2 class="mb20">Question:</h2>
 			<p class="card-front">
-			${card.front}
+			${card.original_text}
 			</p>
 	 	</div>
 	 	<div class="inner-card-back">
 	 		<h2 class="mb20">Answer:</h2>
 			<p class="card-back">
-			${card.back}
+			${card.translated_text}
 			</p>
   		</div>
 		<div class="actions">
@@ -64,50 +63,52 @@ function createCardElement(card, onDelete) {
   cardDOM
     .getElementsByClassName("delete")[0]
     .addEventListener("click", onDelete);
+
   return cardDOM;
 }
 
 //Show array of cards on the screen
-function showCards(arr) {
+async function showCards(arr) {
   cardWrapper.innerHTML = "";
   arr.forEach((card) => {
-    let cardDOM = createCardElement(card, () => {
-      deleteCard(card.id);
-      showCards(getAllCards());
+    let cardDOM = createCardElement(card, async () => {
+      await deleteCard(card.id);
+      await showCards(await getAllCards());
     });
     cardWrapper.appendChild(cardDOM);
   });
 }
 
 //Add card to list
-saveBtn.addEventListener("click", (e) => {
+saveBtn.addEventListener("click", async (e) => {
   e.preventDefault();
   let front = questionFront.value;
   let back = answerBack.value;
-  if (front !== "" && back != "") {
-    createCard(front, back);
-    showCards(getAllCards());
+  if (front !== "" && back !== "") {
+    await createCard(front, back);
+    await showCards(await getAllCards());
   } else {
     errorMessage.style.display = "block";
   }
   closeAddForm();
 });
 
-//Remove all cards from DOM and Local Storage
-clearBtn.addEventListener("click", () => {
-  cardWrapper.innerHTML = "";
-  localStorage.clear();
+clearBtn.addEventListener("click", async () => {
+  await deleteAllCards();
+  location.reload();
 });
 
 //Search
-searchBtn.addEventListener("click", () => {
+searchBtn.addEventListener("click", async () => {
   let searchValue = search.value;
   let searchArr = searchCard(searchValue);
-  showCards(searchArr);
+  await showCards(searchArr);
   if (searchArr.length === 0) {
     alert("There are no similar words!");
   }
   search.value = "";
 });
 
-showCards(getAllCards());
+document.addEventListener("DOMContentLoaded", async () => {
+    await showCards(await getAllCards());
+});

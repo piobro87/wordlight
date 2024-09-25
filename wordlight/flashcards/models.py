@@ -31,7 +31,7 @@ class Flashcard(models.Model):
     invited_users = models.ManyToManyField(
         to=Profile, related_name="shared_flashcards", null=True, blank=True
     )
-    set = models.ForeignKey(to=FlashcardsSet, null=True, on_delete=models.SET_NULL)
+    set = models.ForeignKey(to=FlashcardsSet, null=False, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.original_text
