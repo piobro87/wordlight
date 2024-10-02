@@ -1,3 +1,5 @@
+import { openAddCardForm } from "./utils";
+
 const showBtn = document.getElementById("show-btn");
 const addContainer = document.getElementById("card-window");
 const closeBtn = document.getElementById("close");
@@ -12,19 +14,13 @@ const searchBtn = document.getElementById("search-btn");
 const searchResults = document.getElementById("results");
 const errorSearch = document.getElementById("error-search");
 
-//Show add container block
-function openAddForm() {
-  addContainer.classList.add("show");
-  questionFront.value = "";
-  errorMessage.style.display = "none";
-  answerBack.value = "";
-}
+
 //Close form "add a card"
 function closeAddForm() {
   addContainer.classList.remove("show");
 }
 showBtn.addEventListener("click", () => {
-  openAddForm();
+  openAddCardForm(addContainer, questionFront, errorMessage, answerBack);
 });
 closeBtn.addEventListener("click", () => {
   closeAddForm();

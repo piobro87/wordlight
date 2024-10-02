@@ -11,6 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcards</title>
+    <script type="module" src="{% static 'flashcards/scripts/ui-categories.js' %}"></script>
     <link rel="stylesheet" href="{% static 'flashcards/style.css' %}"/>
     <link
             href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,700;1,400&family=Roboto:wght@400;500;700&display=swap"
@@ -28,6 +29,27 @@
 <!--    <button class="sidebar-btn">Back</button>-->
 <!--</div>-->
 
+<div class="card-window" id="card-window">
+    <div class="card-window__wrap">
+        <a href="#" class="card-window__close icon" id="close"><i
+                class="fas fa-window-close card-window__close"></i></a>
+        <h2 class="center">Create a flashcard</h2>
+        <div class="error-message">Please, fill all the fields!</div>
+        <form id="card-form" class="card-form">
+            <div class="card-form__group">
+                <label for="question">Card question:</label>
+                <textarea name="answer" id="question" cols="30" rows="10"
+                          placeholder="Type your question..."></textarea>
+            </div>
+            <div class="card-form__group">
+                <label for="answer">Card answer:</label>
+                <textarea name="answer" id="answer" cols="30" rows="10" placeholder="Type your answer..."></textarea>
+            </div>
+            <button type="submit" class="btn btn--green" id="save-card">Save card</button>
+        </form>
+    </div>
+</div>
+
 <div class="container">
     <div class="card__intro center">
         <h1>Flashcards</h1>
@@ -39,13 +61,12 @@
                 {% endfor %}
             </ul>
 
-            <a href="">Create new category</a>
+            <button id="show-btn-category" class="btn btn--blue btn--large">Create new category</button>
         <br />
     </div>
 
 </div>
 
 <script src="{% static 'flashcards/scripts/data.js' %}"></script>
-<script src="{% static 'flashcards/scripts/ui.js' %}"></script>
 </body>
 </html>
