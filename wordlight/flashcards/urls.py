@@ -6,7 +6,7 @@ from flashcards.views import AllFlashcardsSetsPreview
 from flashcards.views import FlashcardsByCategoryPreview
 
 urlpatterns = [
-    path("flashcards/", AllFlashcardsSetsPreview.as_view(), name="flashcards"),
+    path("all-flashcards/", AllFlashcardsSetsPreview.as_view(), name="flashcards"),
     path(
         "flashcards/<slug:category>/",
         FlashcardsByCategoryPreview.as_view(),

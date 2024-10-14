@@ -33,19 +33,15 @@
     <div class="card-window__wrap">
         <a href="#" class="card-window__close icon" id="close"><i
                 class="fas fa-window-close card-window__close"></i></a>
-        <h2 class="center">Create a flashcard</h2>
+        <h2 class="center">Create new category</h2>
         <div class="error-message">Please, fill all the fields!</div>
         <form id="card-form" class="card-form">
             <div class="card-form__group">
-                <label for="question">Card question:</label>
-                <textarea name="answer" id="question" cols="30" rows="10"
-                          placeholder="Type your question..."></textarea>
+                <label for="category-name">Category name:</label>
+                <textarea name="answer" id="category-name" cols="30" rows="10"
+                          placeholder="Type your category name..."></textarea>
             </div>
-            <div class="card-form__group">
-                <label for="answer">Card answer:</label>
-                <textarea name="answer" id="answer" cols="30" rows="10" placeholder="Type your answer..."></textarea>
-            </div>
-            <button type="submit" class="btn btn--green" id="save-card">Save card</button>
+            <button type="submit" class="btn btn--green" id="save-category">Submit</button>
         </form>
     </div>
 </div>

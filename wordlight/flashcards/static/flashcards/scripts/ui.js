@@ -1,4 +1,5 @@
-import { openAddCardForm } from "./utils";
+import { openAddCardForm } from "./utils.js";
+import { getAllCards, createCard, deleteCard, deleteAllCards } from "./data.js";
 
 const showBtn = document.getElementById("show-btn");
 const addContainer = document.getElementById("card-window");

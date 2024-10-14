@@ -8,12 +8,14 @@ from flashcards.models import Flashcard
 
 from flashcards_api.serializers import CreateFlashcardSerializer
 
+from flashcards_api.serializers import CreateNewCategorySerializer
+
 
 class GetAllFlashcardsForUser(LoginRequiredMixin, generics.ListAPIView):
     serializer_class = FlashcardSerializer
 
     def get_queryset(self):
-        return Flashcard.objects.filter(owner=self.request.user.profile)
+        return Flashcard.objects.filter(set__owner=self.request.user.profile)
 
 
 class GetDeleteFlashcardsForCategory(
@@ -23,12 +25,12 @@ class GetDeleteFlashcardsForCategory(
 
     def get_queryset(self, *args, **kwargs):
         return Flashcard.objects.filter(
-            owner=self.request.user.profile, set__set_name=self.kwargs["category"]
+            set__owner=self.request.user.profile, set__set_name=self.kwargs["category"]
         )
 
     def delete(self, request, *args, **kwargs):
         cards = Flashcard.objects.filter(
-            owner=self.request.user.profile, set__set_name=self.kwargs["category"]
+            set__owner=self.request.user.profile, set__set_name=self.kwargs["category"]
         ).delete()
 
         return JsonResponse(data={}, status=204)
@@ -41,7 +43,7 @@ class CreateFlashcardForCategory(LoginRequiredMixin, generics.CreateAPIView):
 class DeleteFlashcard(LoginRequiredMixin, generics.DestroyAPIView):
     def delete(self, request, *args, **kwargs):
         card = Flashcard.objects.filter(
-            owner=self.request.user.profile, id=self.kwargs["id"]
+            set__owner=self.request.user.profile, id=self.kwargs["id"]
         )
 
         if card is None:
@@ -51,9 +53,5 @@ class DeleteFlashcard(LoginRequiredMixin, generics.DestroyAPIView):
         return JsonResponse(data={}, status=204)
 
 
-# class DeleteFlashcardsForCategory(LoginRequiredMixin, generics.DestroyAPIView):
-#     def delete(self, request, *args, **kwargs):
-#         cards = Flashcard.objects.filter(owner=self.request.user.profile, set__set_name=self.kwargs[
-#             "category"]).delete()
-#
-#         return JsonResponse(data={}, status=204)
+class CreateNewCategory(LoginRequiredMixin, generics.CreateAPIView):
+    serializer_class = CreateNewCategorySerializer
