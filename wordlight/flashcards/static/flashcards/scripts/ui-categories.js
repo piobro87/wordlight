@@ -21,7 +21,6 @@ saveBtn.addEventListener("click", async (e) => {
 
   if (categoryName !== "") {
     await createCategory(categoryName);
-    // await showCards(await getAllCards());
     closeAddForm();
   } else {
     errorMessage.style.display = "block";

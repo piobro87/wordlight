@@ -58,7 +58,6 @@ class ProfileView(LoginRequiredMixin, View):
             messages.success(request, "Your profile's been updated!")
             return redirect("profile")
 
-        # If the forms are not valid, rerender the page with the form errors
         return render(
             request,
             self.template_name,

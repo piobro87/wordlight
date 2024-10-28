@@ -1,13 +1,8 @@
 from django.urls import path
-
 from flashcards_api.views import GetAllFlashcardsForUser
-
 from flashcards_api.views import GetDeleteFlashcardsForCategory
-
 from flashcards_api.views import CreateFlashcardForCategory
-
 from flashcards_api.views import DeleteFlashcard
-
 from flashcards_api.views import CreateNewCategory
 
 urlpatterns = [

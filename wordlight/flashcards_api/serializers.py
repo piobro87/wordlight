@@ -18,7 +18,6 @@ class CreateFlashcardSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print(validated_data, flush=True)
 
-        # Retrieve the set name from the validated data
         set_name = validated_data.pop("set_name")
         owner = self.context["request"].user.profile
 
@@ -30,8 +29,7 @@ class CreateFlashcardSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"set_name": "Set with this name does not exist."}
             )
-        # Add the owner field from the request user to the validated data
-        # validated_data["owner"] = self.context["request"].user.profile
+
         validated_data["set"] = flashcard_set
 
         return super().create(validated_data)

@@ -13,14 +13,6 @@ class AllFlashcardsSetsPreview(LoginRequiredMixin, ListView):
     def get_queryset(self):
         sets = FlashcardsSet.objects.filter(owner=self.request.user.profile)
         print("XXX", sets, flush=True)
-        # owner_flashcards = Flashcard.objects.filter(
-        #     owner=self.request.user.profile
-        # )  # .set
-        # # set(map(lambda flashcard: flashcard.set.set_name, owner_flaschards))
-        # sets = set()
-        # for flashcard in owner_flashcards:
-        #     set_name = flashcard.set.set_name
-        #     sets.add(set_name)
 
         return sets
 

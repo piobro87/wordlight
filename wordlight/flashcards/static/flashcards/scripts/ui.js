@@ -1,5 +1,5 @@
-import { openAddCardForm } from "./utils.js";
-import { getAllCards, createCard, deleteCard, deleteAllCards } from "./data.js";
+import {openAddCardForm} from "./utils.js";
+import {getAllCards, createCard, deleteCard, deleteAllCards} from "./data.js";
 
 const showBtn = document.getElementById("show-btn");
 const addContainer = document.getElementById("card-window");
@@ -16,22 +16,22 @@ const searchResults = document.getElementById("results");
 const errorSearch = document.getElementById("error-search");
 
 
-//Close form "add a card"
 function closeAddForm() {
-  addContainer.classList.remove("show");
+    addContainer.classList.remove("show");
 }
+
 showBtn.addEventListener("click", () => {
-  openAddCardForm(addContainer, questionFront, errorMessage, answerBack);
+    openAddCardForm(addContainer, questionFront, errorMessage, answerBack);
 });
 closeBtn.addEventListener("click", () => {
-  closeAddForm();
+    closeAddForm();
 });
 
-//Create card element
+
 function createCardElement(card, onDelete) {
-  let cardDOM = document.createElement("div");
-  cardDOM.classList.add("card");
-  cardDOM.innerHTML = `
+    let cardDOM = document.createElement("div");
+    cardDOM.classList.add("card");
+    cardDOM.innerHTML = `
   <div class="card-container">
   		<div class="inner-card-front">
 			<h2 class="mb20">Question:</h2>
@@ -52,58 +52,58 @@ function createCardElement(card, onDelete) {
 	</div>
   `;
 
-  cardDOM.addEventListener("click", () =>
-    cardDOM.classList.toggle("show-answer")
-  );
+    cardDOM.addEventListener("click", () =>
+        cardDOM.classList.toggle("show-answer")
+    );
 
-  //Initiate event listener for delete card
-  cardDOM
-    .getElementsByClassName("delete")[0]
-    .addEventListener("click", onDelete);
 
-  return cardDOM;
+    cardDOM
+        .getElementsByClassName("delete")[0]
+        .addEventListener("click", onDelete);
+
+    return cardDOM;
 }
 
-//Show array of cards on the screen
+
 async function showCards(arr) {
-  cardWrapper.innerHTML = "";
-  arr.forEach((card) => {
-    let cardDOM = createCardElement(card, async () => {
-      await deleteCard(card.id);
-      await showCards(await getAllCards());
+    cardWrapper.innerHTML = "";
+    arr.forEach((card) => {
+        let cardDOM = createCardElement(card, async () => {
+            await deleteCard(card.id);
+            await showCards(await getAllCards());
+        });
+        cardWrapper.appendChild(cardDOM);
     });
-    cardWrapper.appendChild(cardDOM);
-  });
 }
 
-//Add card to list
+
 saveBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
-  let front = questionFront.value;
-  let back = answerBack.value;
-  if (front !== "" && back !== "") {
-    await createCard(front, back);
-    await showCards(await getAllCards());
-  } else {
-    errorMessage.style.display = "block";
-  }
-  closeAddForm();
+    e.preventDefault();
+    let front = questionFront.value;
+    let back = answerBack.value;
+    if (front !== "" && back !== "") {
+        await createCard(front, back);
+        await showCards(await getAllCards());
+    } else {
+        errorMessage.style.display = "block";
+    }
+    closeAddForm();
 });
 
 clearBtn.addEventListener("click", async () => {
-  await deleteAllCards();
-  location.reload();
+    await deleteAllCards();
+    location.reload();
 });
 
-//Search
+
 searchBtn.addEventListener("click", async () => {
-  let searchValue = search.value;
-  let searchArr = searchCard(searchValue);
-  await showCards(searchArr);
-  if (searchArr.length === 0) {
-    alert("There are no similar words!");
-  }
-  search.value = "";
+    let searchValue = search.value;
+    let searchArr = searchCard(searchValue);
+    await showCards(searchArr);
+    if (searchArr.length === 0) {
+        alert("There are no similar words!");
+    }
+    search.value = "";
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
