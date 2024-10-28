@@ -1,0 +1,44 @@
+{% load static %}
+{% load compress %}
+{% compress css %}
+<link type="text/x-scss" href="{% static 'flashcards/style.scss' %}" rel="stylesheet" media="screen">
+{% endcompress %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="{% static 'flashcards/style.css' %}"/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,700;1,400&family=Roboto:wght@400;500;700&display=swap"
+            rel="stylesheet"/>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="card-search">
+        <div class="card-search__wrap">
+            <input type="text" id="search">
+        </div>
+    </div>
+    <div id="card-list" class="card-list"></div>
+
+
+</div>
+<div
+        class="card__intro center">
+    <button id="show-btn" class="btn btn--blue btn--large">Add a new card</button>
+</div>
+
+<script type="module" src="{% static 'flashcards_game/scripts/flashcards_game.js' %}"></script>
+
+</body>
+</html>

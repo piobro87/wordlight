@@ -6,6 +6,7 @@ class LanguagesVariations(models.TextChoices):
     POL_TO_ENG = ("1", "Polish --> English")
     ENG_TO_POL = ("2", "English --> Polish")
     POL_TO_GE = ("3", "Polish --> German")
+    GE_TO_POL = ("4", "German --> Polish")
 
 
 class FlashcardsSet(models.Model):

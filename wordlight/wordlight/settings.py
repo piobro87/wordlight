@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "flashcards.apps.FlashcardsConfig",
     "core.apps.CoreConfig",
     "users.apps.UsersConfig",
+    "flashcards_game.apps.FlashcardsGameConfig",
     "compressor",
     "rest_framework",
 ]
