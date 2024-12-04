@@ -1,3 +1,5 @@
+import json
+
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,6 +11,7 @@ from flashcards.models import Flashcard
 from flashcards_api.serializers import CreateFlashcardSerializer
 
 from flashcards_api.serializers import CreateNewCategorySerializer
+from rest_framework import views
 
 
 class GetAllFlashcardsForUser(LoginRequiredMixin, generics.ListAPIView):
@@ -55,3 +58,17 @@ class DeleteFlashcard(LoginRequiredMixin, generics.DestroyAPIView):
 
 class CreateNewCategory(LoginRequiredMixin, generics.CreateAPIView):
     serializer_class = CreateNewCategorySerializer
+
+
+class CheckAnswers(LoginRequiredMixin, views.APIView):
+    def post(self, request, *args, **kwargs):
+        """
+        [{"id": <input_id>, "answer": <input_value>}, {...}]
+        """
+        answers = json.loads(request.data)
+
+        for answer in answers:
+            id = answer.get("id")
+            value = answer.get("answer")
+
+            print("XX", id, value, flush=True)
