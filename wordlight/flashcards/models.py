@@ -36,3 +36,12 @@ class Flashcard(models.Model):
 
     def __str__(self):
         return self.original_text
+
+    """
+class UsersWithPoints(models.Model):
+    user = models.ForeignKey(to=Profile.user)
+    flashcards_set = ??
+    positive_answers = ??
+    negative_answers = ??
+
+    """

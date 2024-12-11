@@ -12,6 +12,10 @@ from flashcards_api.serializers import CreateFlashcardSerializer
 
 from flashcards_api.serializers import CreateNewCategorySerializer
 from rest_framework import views
+from flashcards.models import Flashcard
+
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 class GetAllFlashcardsForUser(LoginRequiredMixin, generics.ListAPIView):
@@ -63,12 +67,24 @@ class CreateNewCategory(LoginRequiredMixin, generics.CreateAPIView):
 class CheckAnswers(LoginRequiredMixin, views.APIView):
     def post(self, request, *args, **kwargs):
         """
-        [{"id": <input_id>, "answer": <input_value>}, {...}]
+        Expected format:
+        [
+            {
+                "id": <input_id>,
+                "answer": <input_value>
+            },
+            {...}
+        ]
         """
-        answers = json.loads(request.data)
+        results = {}
+        answers = request.data
 
         for answer in answers:
             id = answer.get("id")
             value = answer.get("answer")
 
-            print("XX", id, value, flush=True)
+            card = Flashcard.objects.get(id=id)
+            is_correct = card.translated_text == value
+            results[id] = is_correct
+
+        return JsonResponse(results)

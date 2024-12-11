@@ -12,7 +12,6 @@ async function showCards(arr) {
 }
 
 function createCardElement(card) {
-    console.log(card);
     let cardDOM = document.createElement("div");
     cardDOM.classList.add("card-item");
     cardDOM.innerHTML = `
@@ -28,8 +27,53 @@ function createCardElement(card) {
     return cardDOM;
 }
 
-function sendAnswers() {
-    console.log("CALLED AFTER THE BUTTON CLICK");
+function getAnswers() {
+    // Get all elements with class "card-container"
+    const cardContainers = document.querySelectorAll(".card-container");
+
+    // Initialize an array to hold the answers
+    const answers = [];
+
+    // Iterate over each card-container and retrieve input values
+    cardContainers.forEach((container) => {
+        const input = container.querySelector(".card-input"); // Find the input inside the container
+        if (input) {
+            answers.push({
+                id: input.id, // Get the ID of the input
+                answer: input.value.trim() // Get the input value
+            });
+        }
+    });
+
+    return answers;
+}
+
+async function sendAnswers() {
+    let answers = getAnswers();
+
+    let response = await fetch(`/api/flashcard-check/`, {
+        method: "POST",
+        body: JSON.stringify(answers),
+        headers: {"Content-Type": "application/json", 'X-CSRFToken': getCookie("csrftoken")}
+    });
+
+    let answersResult = await response.json();
+    return answersResult;
+}
+
+function changeFeedbackColours(answersResult) {
+    for (const [key, value] of Object.entries(answersResult)) {
+        const inputs = document.querySelectorAll(`input[id="${key}"]`);
+        console.log(inputs);
+        inputs.forEach((input) => {
+           if(value === true){
+               input.style.backgroundColor = "lightgreen";
+           }
+           else {
+                input.style.backgroundColor = "lightcoral";
+           }
+        });
+    }
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -37,5 +81,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 submitBtn.addEventListener("click", async () => {
-    sendAnswers();
+    let answersResult = await sendAnswers();
+    changeFeedbackColours(answersResult);
 });
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
