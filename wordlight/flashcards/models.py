@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from users.models import Profile
 
@@ -37,11 +39,11 @@ class Flashcard(models.Model):
     def __str__(self):
         return self.original_text
 
-    """
-class UsersWithPoints(models.Model):
-    user = models.ForeignKey(to=Profile.user)
-    flashcards_set = ??
-    positive_answers = ??
-    negative_answers = ??
 
-    """
+class Points(models.Model):
+    flashcards_set = models.ForeignKey(
+        to=FlashcardsSet, related_name="points", on_delete=models.DO_NOTHING
+    )
+    positive_answers = models.IntegerField(default=0)
+    total_answers = models.IntegerField(default=0)
+    created_at = models.DateTimeField(default=datetime.now)

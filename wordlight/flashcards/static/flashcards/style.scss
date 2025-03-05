@@ -8,10 +8,10 @@
 @import 'mixins/mixins';
 
 // Reset and base files
-// --------------------
-@import 'base/reset';
-@import 'base/base';
-@import 'base/font';
+//// --------------------
+//@import 'base/reset';
+//@import 'base/base';
+//@import 'base/font';
 
 
 // Objects
@@ -26,6 +26,7 @@
 
 //Fonts
 // --------------------
+
 
 .sidebar {
   position: fixed;
@@ -45,8 +46,7 @@
   width: 180px;
   margin: 10px 0;
   padding: 10px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
+  //font-size: 16px;
   color: #333;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -97,9 +97,9 @@
         width: 80px;
     }
 
-    .sidebar-btn {
-        font-size: 14px;
-    }
+    //.sidebar-btn {
+    //    font-size: 14px;
+    //}
 }
 
 .sidebar-toggle {
@@ -119,4 +119,8 @@
     .sidebar-toggle {
         display: block;
     }
+}
+
+#play-btn {
+  margin-top: 1px;
 }

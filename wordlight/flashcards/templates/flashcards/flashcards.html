@@ -11,7 +11,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcards</title>
+
     <link rel="stylesheet" href="{% static 'flashcards/style.css' %}"/>
+
     <link
             href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,700;1,400&family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet"/>
@@ -21,16 +23,14 @@
 </head>
 <body>
 
-<!--<div class="sidebar">-->
-<!--    <button class="sidebar-btn">Categories</button>-->
-<!--    <button class="sidebar-btn">Button 2</button>-->
-<!--    <button class="sidebar-btn">Button 3</button>-->
-<!--    <button class="sidebar-btn">Back</button>-->
-<!--</div>-->
 
 <div class="container">
     <div class="card__intro center">
-        <h1>Flashcards</h1>
+        <div id="navigation-section">
+            <a href="/all-flashcards/"> < </a>
+            <h1>Flashcards</h1>
+        </div>
+
         <h2>Category: {{ category }}</h2>
         <br />
         <p class="text">It is a popular way to memorize words and concepts. Cards have 2 sides that change when you
@@ -39,8 +39,11 @@
             <img src="{% static 'flashcards/img/flashcards.svg' %}" alt="Flashcard stack">
         </div>
         <button id="show-btn" class="btn btn--blue btn--large">Add a new card</button>
+
+        <button id="play-btn" class="btn btn--blue btn--large">Play</button>
+
     </div>
-    <div class="card-search">
+    <div class="card-search" hidden>
         <div class="card-search__wrap">
             <input type="text" id="search">
             <button class="btn btn--green" id="search-btn">Search card</button>

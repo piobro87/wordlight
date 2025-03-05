@@ -69,4 +69,4 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-export { createCard, getAllCards, deleteCard, deleteAllCards }
+export { createCard, getAllCards, deleteCard, deleteAllCards, getSetName }

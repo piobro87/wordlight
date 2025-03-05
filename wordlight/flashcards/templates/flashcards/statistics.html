@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+
+{% block head %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+{% endblock %}
+
+
+
+{% block content %}
+<main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+    <div class="content-section">
+        <div class="container">
+            {% for flashcards_set, entries in points.items %}
+
+            <p><b>Category name: {{ flashcards_set }}</b></p>
+
+
+                {% for entry in entries %}
+                    <p>Date: {{ entry.created_at }} </p>
+                    <p>Total points: {{ entry.total_answers }} </p>
+                    <p>Positive points: {{ entry.positive_answers }} </p>
+
+
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

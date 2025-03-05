@@ -1,4 +1,4 @@
-import {getCardsFromCategory} from "./data.js";
+import {getCardsFromCategory, getSetName} from "./data.js";
 
 const cardWrapper = document.getElementById("card-list");
 const submitBtn = document.getElementById("show-btn");
@@ -50,10 +50,13 @@ function getAnswers() {
 
 async function sendAnswers() {
     let answers = getAnswers();
-
+    let data = {
+        "category": getSetName(),
+        "answers": answers
+    }
     let response = await fetch(`/api/flashcard-check/`, {
         method: "POST",
-        body: JSON.stringify(answers),
+        body: JSON.stringify(data),
         headers: {"Content-Type": "application/json", 'X-CSRFToken': getCookie("csrftoken")}
     });
 

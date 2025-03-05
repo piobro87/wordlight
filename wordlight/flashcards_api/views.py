@@ -12,10 +12,12 @@ from flashcards_api.serializers import CreateFlashcardSerializer
 
 from flashcards_api.serializers import CreateNewCategorySerializer
 from rest_framework import views
-from flashcards.models import Flashcard
+from flashcards.models import Flashcard, Points
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+
+from flashcards.models import FlashcardsSet
 
 
 class GetAllFlashcardsForUser(LoginRequiredMixin, generics.ListAPIView):
@@ -68,16 +70,21 @@ class CheckAnswers(LoginRequiredMixin, views.APIView):
     def post(self, request, *args, **kwargs):
         """
         Expected format:
-        [
-            {
+        {
+            "category": ...,
+            "answers": [
+                {
                 "id": <input_id>,
                 "answer": <input_value>
-            },
-            {...}
-        ]
+                },
+                {...}
+            ]
+        }
         """
         results = {}
-        answers = request.data
+        details = request.data
+        answers = details["answers"]
+        category = details["category"]
 
         for answer in answers:
             id = answer.get("id")
@@ -86,5 +93,17 @@ class CheckAnswers(LoginRequiredMixin, views.APIView):
             card = Flashcard.objects.get(id=id)
             is_correct = card.translated_text == value
             results[id] = is_correct
+
+        positive_points = len(
+            list(filter(lambda pair: pair[1] is True, results.items()))
+        )
+        total_answers = len(answers)
+
+        category_obj = FlashcardsSet.objects.get(set_name=category)
+        Points.objects.create(
+            flashcards_set=category_obj,
+            positive_answers=positive_points,
+            total_answers=total_answers,
+        )
 
         return JsonResponse(results)

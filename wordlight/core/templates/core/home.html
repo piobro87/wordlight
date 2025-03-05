@@ -15,15 +15,7 @@
 
 
     <div class="row my-4">
-        <div class="col-lg-7 col-12">
 
-
-            <div class="custom-block bg-white">
-                <div id="chart"></div>
-            </div>
-
-
-        </div>
 
         <div class="col-lg-5 col-12">
             <div class="custom-block custom-block-profile-front custom-block-profile text-center bg-white">
@@ -52,139 +44,11 @@
 
             </div>
 
-            <div class="custom-block custom-block-bottom d-flex flex-wrap">
-                <div class="custom-block-bottom-item">
-                    <a href="#" class="d-flex flex-column">
-                        <i class="custom-block-icon bi-wallet"></i>
 
-                        <small>Top up</small>
-                    </a>
-                </div>
-
-                <div class="custom-block-bottom-item">
-                    <a href="#" class="d-flex flex-column">
-                        <i class="custom-block-icon bi-upc-scan"></i>
-
-                        <small>Scan & Pay</small>
-                    </a>
-                </div>
-
-                <div class="custom-block-bottom-item">
-                    <a href="#" class="d-flex flex-column">
-                        <i class="custom-block-icon bi-send"></i>
-
-                        <small>Send</small>
-                    </a>
-                </div>
-
-                <div class="custom-block-bottom-item">
-                    <a href="#" class="d-flex flex-column">
-                        <i class="custom-block-icon bi-arrow-down"></i>
-
-                        <small>Request</small>
-                    </a>
-                </div>
-            </div>
 
         </div>
     </div>
 
-    <footer class="site-footer">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-lg-12 col-12">
-                    <p class="copyright-text">Copyright © Mini Finance 2048
-                        - Design: <a rel="sponsored" href="https://www.tooplate.com"
-                                     target="_blank">Tooplate</a></p>
-                </div>
-
-            </div>
-        </div>
-    </footer>
 </main>
-
-<!-- JAVASCRIPT FILES -->
-
-
-<script type="text/javascript">
-    var options = {
-        series: [13, 43, 22],
-        chart: {
-            width: 380,
-            type: 'pie',
-        },
-        labels: ['Balance', 'Expense', 'Credit Loan',],
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }]
-    };
-
-    var chart = new ApexCharts(document.querySelector("#pie-chart"), options);
-    chart.render();
-</script>
-
-<script type="text/javascript">
-    var options = {
-        series: [{
-            name: 'Income',
-            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-        }, {
-            name: 'Expense',
-            data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-        }, {
-            name: 'Transfer',
-            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-        }],
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-            },
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-        },
-        xaxis: {
-            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-        },
-        yaxis: {
-            title: {
-                text: '$ (thousands)'
-            }
-        },
-        fill: {
-            opacity: 1
-        },
-        tooltip: {
-            y: {
-                formatter: function (val) {
-                    return "$ " + val + " thousands"
-                }
-            }
-        }
-    };
-
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
-</script>
 
 {% endblock %}

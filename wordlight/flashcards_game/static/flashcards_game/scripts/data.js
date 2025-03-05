@@ -15,4 +15,4 @@ async function getCardsFromCategory() {
     return cards;
 }
 
-export {getCardsFromCategory}
+export {getCardsFromCategory, getSetName}

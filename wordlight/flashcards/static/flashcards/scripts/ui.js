@@ -1,5 +1,5 @@
 import {openAddCardForm} from "./utils.js";
-import {getAllCards, createCard, deleteCard, deleteAllCards} from "./data.js";
+import {getAllCards, createCard, deleteCard, deleteAllCards, getSetName} from "./data.js";
 
 const showBtn = document.getElementById("show-btn");
 const addContainer = document.getElementById("card-window");
@@ -14,6 +14,7 @@ const search = document.getElementById("search");
 const searchBtn = document.getElementById("search-btn");
 const searchResults = document.getElementById("results");
 const errorSearch = document.getElementById("error-search");
+const playBtn = document.getElementById("play-btn")
 
 
 function closeAddForm() {
@@ -76,6 +77,11 @@ async function showCards(arr) {
     });
 }
 
+function redirectToPlay() {
+    let setName = getSetName();
+    location.href = `/game/${setName}/play`;
+}
+
 
 saveBtn.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -105,6 +111,8 @@ searchBtn.addEventListener("click", async () => {
     }
     search.value = "";
 });
+
+playBtn.addEventListener("click", () => redirectToPlay());
 
 document.addEventListener("DOMContentLoaded", async () => {
     await showCards(await getAllCards());
