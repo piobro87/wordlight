@@ -37,7 +37,7 @@ class CustomLogoutView(LogoutView):
 class ProfileView(LoginRequiredMixin, View):
     template_name = "users/profile.html"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
         return render(
@@ -46,7 +46,7 @@ class ProfileView(LoginRequiredMixin, View):
             {"user_form": user_form, "profile_form": profile_form},
         )
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(
             request.POST, request.FILES, instance=request.user.profile

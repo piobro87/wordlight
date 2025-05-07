@@ -1,9 +1,9 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView
-from flashcards.models import FlashcardsSet, Flashcard, Points
 from collections import defaultdict
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
+from django.views.generic import TemplateView, ListView
+from flashcards.models import FlashcardsSet, Points
 
 
 class AllFlashcardsSetsPreview(LoginRequiredMixin, ListView):
@@ -40,9 +40,7 @@ class FlashcardsStatisticsPreview(LoginRequiredMixin, ListView):
             "created_at",
             "total_answers",
             "positive_answers",
-        ).order_by(
-            "flashcards_set__set_name", "created_at"
-        )  # Order results for better grouping
+        ).order_by("flashcards_set__set_name", "created_at")
 
         grouped_data = defaultdict(list)
         for item in queryset:
@@ -54,4 +52,4 @@ class FlashcardsStatisticsPreview(LoginRequiredMixin, ListView):
                 }
             )
 
-        return dict(grouped_data)  # Convert defaultdict to a normal dictionary
+        return dict(grouped_data)

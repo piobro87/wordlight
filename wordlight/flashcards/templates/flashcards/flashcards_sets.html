@@ -1,23 +1,28 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load compress %}
-
 {% compress css %}
-    <link type="text/x-scss" href="{% static 'flashcards/style.scss' %}" rel="stylesheet" media="screen">
+<link type="text/x-scss"
+      href="{% static 'flashcards/style.scss' %}"
+      rel="stylesheet"
+      media="screen">
 {% endcompress %}
-
 {% block head %}
-    <title>Flashcards</title>
+<title>Flashcards</title>
+<script type="module"
+        src="{% static 'flashcards/scripts/ui-categories.js' %}"></script>
+<script src="{% static 'flashcards/scripts/data.js' %}"></script>
+<link rel="stylesheet" href="{% static 'flashcards/style.css' %}"/>
+<link rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous" />
 
-    <script type="module" src="{% static 'flashcards/scripts/ui-categories.js' %}"></script>
-    <script src="{% static 'flashcards/scripts/data.js' %}"></script>
-
-    <link rel="stylesheet" href="{% static 'flashcards/style.css' %}"/>
+<script>
+    window.USER_ID = "{{ user.id }}";
+</script>
 
 {% endblock %}
-
-
-
 {% block content %}
 <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
     <div class="content-section">
@@ -30,29 +35,51 @@
                 <form id="card-form" class="card-form">
                     <div class="card-form__group">
                         <label for="category-name">Category name:</label>
-                        <textarea name="answer" id="category-name" cols="30" rows="10"
+                        <textarea name="answer"
+                                  id="category-name"
+                                  cols="30"
+                                  rows="10"
                                   placeholder="Type your category name..."></textarea>
                     </div>
                     <button type="submit" class="btn btn--green" id="save-category">Submit</button>
                 </form>
             </div>
         </div>
-
         <div class="container">
             <div class="card__intro center">
                 <h1>Flashcards</h1>
                 <h2>Category: {{ category }}</h2>
-                <br />
-                    <ul>
-                        {% for set in sets %}
-                            <li><a href="/flashcards/{{ set }}/">{{ set }}</a></li>
-                        {% endfor %}
-                    </ul>
+                <br/>
+                <ul id="category-list">
+                    {% for set in sets %}
+                    <div class="categoryWrapper">
+                        <div class="rectangleFigure">
+                            <a href="/flashcards/{{ set }}/">{{ set }}</a>
+                        </div>
 
-                    <button id="show-btn-category" class="btn btn--blue btn--large">Create new category</button>
-                <br />
+                        <div class="share-icon">
+                            <i class="fa fa-share"></i>
+                        </div>
+
+                        <div class="trash-icon">
+                            <i class="fa fa-trash"></i>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </ul>
+                <button id="show-btn-category" class="btn btn--blue btn--large">Create new category</button>
+                <br/>
             </div>
         </div>
     </div>
 </main>
+
+<div id="share-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Share category</h3>
+        <input type="email" id="recipient-email" placeholder="Recipient's email" required/>
+        <button id="invite-btn">Invite</button>
+    </div>
+</div>
 {% endblock %}

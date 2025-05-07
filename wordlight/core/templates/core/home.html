@@ -1,54 +1,36 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
-
-<main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
-    <div class="title-group mb-3">
-        <h1 class="h2 mb-0">Overview</h1>
-        {% if user.first_name %}
-        <small class="text-muted">Hello {{ user.first_name }}, welcome back!</small>
-        {% else %}
-        <small class="text-muted">Hello, welcome back!</small>
-
-        {% endif %}
-    </div>
-
-
-    <div class="row my-4">
-
-
-        <div class="col-lg-5 col-12">
-            <div class="custom-block custom-block-profile-front custom-block-profile text-center bg-white">
-                <div class="custom-block-profile-image-wrap mb-4">
-                    <img src="{{ user.profile.image.url }}"
-                         class="custom-block-profile-image img-fluid" alt="">
-
-                    <a href="setting.html" class="bi-pencil-square custom-block-edit-icon"></a>
-                </div>
-
-                {% if user.first_name %}
-                <p class="d-flex flex-wrap mb-2">
-                    <strong>Name:</strong>
-
-                    <span>{{ user.first_name }} {{ user.last_name }}</span>
-                </p>
-                {% endif %}
-
-                <p class="d-flex flex-wrap mb-2">
-                    <strong>Email:</strong>
-
-                    <a href="#">
-                        {{ user.email }}
-                    </a>
-                </p>
-
-            </div>
-
-
-
+    <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+        <div class="title-group mb-3">
+            <h1 class="h2 mb-0">Overview</h1>
+            {% if user.first_name %}
+                <small class="text-muted">Hello {{ user.first_name }}, welcome back!</small>
+            {% else %}
+                <small class="text-muted">Hello, welcome back!</small>
+            {% endif %}
         </div>
-    </div>
-
-</main>
-
+        <div class="row my-4">
+            <div class="col-lg-5 col-12">
+                <div class="custom-block custom-block-profile-front custom-block-profile text-center bg-white">
+                    <div class="custom-block-profile-image-wrap mb-4">
+                        <img src="{{ user.profile.image.url }}"
+                             class="custom-block-profile-image img-fluid"
+                             alt="">
+                        <a href="setting.html" class="bi-pencil-square custom-block-edit-icon"></a>
+                    </div>
+                    {% if user.first_name %}
+                        <p class="d-flex flex-wrap mb-2">
+                            <strong>Name:</strong>
+                            <span>{{ user.first_name }} {{ user.last_name }}</span>
+                        </p>
+                    {% endif %}
+                    <p class="d-flex flex-wrap mb-2">
+                        <strong>Email:</strong>
+                        <a href="#">{{ user.email }}</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
 {% endblock %}

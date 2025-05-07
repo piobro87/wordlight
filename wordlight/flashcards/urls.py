@@ -1,4 +1,3 @@
-from core.views import HomeView
 from django.urls import path
 
 from flashcards.views import AllFlashcardsSetsPreview

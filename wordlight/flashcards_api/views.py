@@ -1,23 +1,17 @@
-import json
-
-from django.http import Http404, JsonResponse
-from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-from rest_framework.viewsets import generics
-from flashcards_api.serializers import FlashcardSerializer
-from flashcards.models import Flashcard
-
-from flashcards_api.serializers import CreateFlashcardSerializer
-
-from flashcards_api.serializers import CreateNewCategorySerializer
-from rest_framework import views
+from django.http import JsonResponse
 from flashcards.models import Flashcard, Points
-
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-
 from flashcards.models import FlashcardsSet
+from flashcards_api.exceptions import CardNotFound
+from flashcards_api.exceptions import CategoryAlreadyExists
+from flashcards_api.helpers import share_flashcard_set
+from flashcards_api.serializers import CreateFlashcardSerializer
+from flashcards_api.serializers import CreateNewCategorySerializer
+from flashcards_api.serializers import FlashcardSerializer
+from rest_framework import views, status
+from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
+from rest_framework.viewsets import generics
 
 
 class GetAllFlashcardsForUser(LoginRequiredMixin, generics.ListAPIView):
@@ -40,7 +34,9 @@ class GetDeleteFlashcardsForCategory(
     def delete(self, request, *args, **kwargs):
         cards = Flashcard.objects.filter(
             set__owner=self.request.user.profile, set__set_name=self.kwargs["category"]
-        ).delete()
+        )
+
+        cards.delete()
 
         return JsonResponse(data={}, status=204)
 
@@ -56,7 +52,7 @@ class DeleteFlashcard(LoginRequiredMixin, generics.DestroyAPIView):
         )
 
         if card is None:
-            raise Http404()
+            raise CardNotFound()
 
         card.delete()
         return JsonResponse(data={}, status=204)
@@ -65,9 +61,17 @@ class DeleteFlashcard(LoginRequiredMixin, generics.DestroyAPIView):
 class CreateNewCategory(LoginRequiredMixin, generics.CreateAPIView):
     serializer_class = CreateNewCategorySerializer
 
+    def perform_create(self, serializer):
+        category_name = serializer.validated_data.get("set_name").lower()
+        owner = self.request.user.profile
+        if FlashcardsSet.objects.filter(set_name=category_name, owner=owner).exists():
+            raise CategoryAlreadyExists()
+
+        serializer.save()
+
 
 class CheckAnswers(LoginRequiredMixin, views.APIView):
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         """
         Expected format:
         {
@@ -107,3 +111,30 @@ class CheckAnswers(LoginRequiredMixin, views.APIView):
         )
 
         return JsonResponse(results)
+
+
+class ShareCategoryView(LoginRequiredMixin, views.APIView):
+    def post(self, request):
+        sharer_id = request.data.get("sharer")
+        recipient_email = request.data.get("recipient")
+        category_id = request.data.get("category_id")
+
+        new_flashcard_set = share_flashcard_set(sharer_id, recipient_email, category_id)
+
+        return Response(
+            {
+                "message": "Flashcard set successfully shared.",
+                "new_set_id": new_flashcard_set.id,
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+
+class DeleteCategory(LoginRequiredMixin, generics.DestroyAPIView):
+    def delete(self, request, *args, **kwargs):
+        category_name = self.kwargs["set_name"]
+        category = get_object_or_404(
+            FlashcardsSet, owner=self.request.user.profile, set_name=category_name
+        )
+        category.delete()
+        return JsonResponse(data={}, status=204)

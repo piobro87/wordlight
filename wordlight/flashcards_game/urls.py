@@ -1,5 +1,4 @@
 from django.urls import path
-
 from flashcards_game.views import FlashcardsPlay
 
 urlpatterns = [

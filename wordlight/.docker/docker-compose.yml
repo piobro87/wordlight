@@ -23,6 +23,7 @@ services:
       - POSTGRES_PASS=${POSTGRES_PASS}
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
+      - SECRET_KEY=${SECRET_KEY}
     depends_on:
        db:
         condition: service_healthy

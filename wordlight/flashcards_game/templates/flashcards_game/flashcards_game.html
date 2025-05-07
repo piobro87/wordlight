@@ -1,31 +1,28 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'flashcards_game/style.css' %}"/>
-</head>
-<body>
-<main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
-    <div class="content-section">
-        <h1>Flashcards</h1>
-
-        <div class="container">
-            <div id="card-list" class="card-list"></div>
-        </div>
-        <div class="card__intro center">
-            <button id="show-btn" class="btn btn--blue btn--large">Submit answers</button>
-        </div>
-    </div>
-</main>
-</body>
-
-        <script type="module" src="{% static 'flashcards_game/scripts/flashcards_game.js' %}"></script>
-
-        </html>
-
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="{% static 'flashcards_game/style.css' %}" />
+        </head>
+        <body>
+            <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+                <div class="content-section">
+                    <h1>Flashcards</h1>
+                    <div class="container">
+                        <div id="card-list" class="card-list"></div>
+                    </div>
+                    <div class="card__intro center">
+                        <button id="show-btn" class="btn btn--blue btn--large">Submit answers</button>
+                    </div>
+                </div>
+            </main>
+        </body>
+        <script type="module"
+                src="{% static 'flashcards_game/scripts/flashcards_game.js' %}"></script>
+    </html>
 {% endblock %}

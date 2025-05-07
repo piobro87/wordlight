@@ -1,34 +1,19 @@
-/*
-Data view
-
-Card structure:
-{
-	id: 0,
-	front: "Question",
-	back: "Answer"
-}
-*/
-
-let currentIdCard = 0;
-
 async function createCard(front, back) {
     let setName = getSetName()
     let card = {original_text: String(front), translated_text: String(back), set_name: String(setName) };
     let cardJSON = JSON.stringify(card);
 
-    let response = await fetch(`/api/flashcard/`, {
+    await fetch(`/api/flashcard/`, {
         method: "POST",
         body: cardJSON,
         headers: {"Content-Type": "application/json", 'X-CSRFToken': getCookie("csrftoken")}
     });
 
-    if (response.status == 201) {
-        return card;
-    }
+    return card;
 }
 
 async function deleteCard(id) {
-    let response = await fetch(`/api/flashcard/${id}`, {
+    await fetch(`/api/flashcard/${id}`, {
         method: "DELETE",
         headers: {"Content-Type": "application/json", 'X-CSRFToken': getCookie("csrftoken")}
     });
@@ -41,7 +26,7 @@ function searchCard(query) {
 
 async function deleteAllCards() {
     let setName = getSetName()
-    let response = await fetch(`/api/flashcards/${setName}`, {method: "DELETE",
+    await fetch(`/api/flashcards/${setName}`, {method: "DELETE",
         headers: {"Content-Type": "application/json", 'X-CSRFToken': getCookie("csrftoken")}
     });
 }
@@ -69,4 +54,11 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-export { createCard, getAllCards, deleteCard, deleteAllCards, getSetName }
+async function deleteCategory(set_name) {
+    await fetch(`/api/flashcard-set-delete/${set_name}`, {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json", 'X-CSRFToken': getCookie("csrftoken")}
+    });
+}
+
+export { createCard, getAllCards, deleteCard, deleteAllCards, getSetName, getCookie, deleteCategory }
